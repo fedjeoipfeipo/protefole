@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mostafa — Landing pages & ad copy for independent luxury brands.">
+<meta name="theme-color" content="#080806">
+<title>Mostafa — Luxury Landing Pages & Ad Copy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Freight+Display+Pro:ital,wght@0,300;1,300&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:    #080806;
+  --paper:  #f2ede6;
+  --gold:   #b89a6a;
+  --dim:    #6b665e;
+  --faint:  rgba(242,237,230,0.08);
+  --rule:   rgba(242,237,230,0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+#cur  { width:7px; height:7px; background:var(--gold); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; }
+#ring { width:34px; height:34px; border:1px solid rgba(184,154,106,.45); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transition:width .28s,height .28s,border-color .28s; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 5.5vh 7vw 5.5vh;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  opacity: 0;
+  animation: fade .7s .15s forwards;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .62rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.badge::before {
+  content: '';
+  display: block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.nav {
+  display: flex;
+  gap: 2.5rem;
+}
+.nav a {
+  font-size: .63rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color .25s;
+}
+.nav a:hover { color: var(--paper); }
+
+.hero-mid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4vh 0 2vh;
+}
+
+.hero-eyebrow {
+  font-size: .62rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 2.2rem;
+  opacity: 0;
+  animation: fade .7s .4s forwards;
+}
+
+.hero-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(5.5rem, 14vw, 12rem);
+  font-weight: 400;
+  line-height: .86;
+  letter-spacing: -.025em;
+  opacity: 0;
+  animation: up 1s .5s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-name em { font-style: italic; color: var(--gold); }
+
+.hero-tagline {
+  margin-top: 3rem;
+  font-size: clamp(.85rem, 1.1vw, 1rem);
+  color: rgba(242,237,230,.5);
+  letter-spacing: .04em;
+  line-height: 1.7;
+  max-width: 380px;
+  opacity: 0;
+  animation: fade .7s .9s forwards;
+}
+
+.hero-bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  opacity: 0;
+  animation: fade .7s 1.1s forwards;
+}
+
+.hero-roles {
+  display: flex;
+  gap: 2rem;
+}
+.hero-role {
+  font-size: .6rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: .45rem .9rem;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+}
+
+.scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  font-size: .6rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.scroll-hint::before {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--gold);
+}
+
+/* ── WORK ── */
+.work { padding: 0; }
+
+.case {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 90vh;
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+}
+.case.visible { opacity: 1; transform: none; }
+.case:nth-child(even) { direction: rtl; }
+.case:nth-child(even) .case-text { direction: ltr; }
+
+.case-img {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+.case-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .85s cubic-bezier(.16,1,.3,1);
+  filter: brightness(.88);
+}
+.case:hover .case-img img { transform: scale(1.035); }
+.case-img-veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, transparent 55%, rgba(8,8,6,.25));
+  pointer-events: none;
+}
+
+.case-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8vh 6vw;
+}
+
+.case-index {
+  font-size: .58rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 3rem;
+}
+
+.case-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.4rem;
+}
+.case-brand {
+  font-size: .68rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.case-tag {
+  font-size: .56rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(184,154,106,.3);
+  padding: .3rem .65rem;
+  border-radius: 100px;
+}
+
+.case-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 3.2vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: 2.5rem;
+}
+.case-headline em { font-style: italic; color: var(--gold); }
+
+.case-rule { width: 36px; height: 1px; background: var(--gold); margin-bottom: 2.2rem; }
+
+.case-label {
+  font-size: .58rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .9rem;
+}
+
+.case-body {
+  font-size: .86rem;
+  line-height: 1.9;
+  color: rgba(242,237,230,.58);
+  max-width: 420px;
+  margin-bottom: 2.5rem;
+}
+
+.case-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  font-size: .62rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--paper);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184,154,106,.35);
+  padding-bottom: .3rem;
+  transition: color .25s, border-color .25s;
+}
+.case-cta:hover { color: var(--gold); border-color: var(--gold); }
+.case-cta-arrow {
+  width: 18px; height: 1px;
+  background: currentColor;
+  position: relative;
+  transition: width .25s;
+}
+.case-cta-arrow::after {
+  content: '';
+  position: absolute;
+  right: 0; top: -3px;
+  width: 6px; height: 6px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+.case-cta:hover .case-cta-arrow { width: 28px; }
+
+/* ── ABOUT STRIP ── */
+.about {
+  padding: 10vh 7vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6vw;
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+}
+.about.visible { opacity: 1; transform: none; }
+
+.about-label {
+  font-size: .6rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+}
+
+.about-heading {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.8rem, 2.8vw, 3rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.about-heading em { font-style: italic; color: var(--gold); }
+
+.about-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4rem;
+}
+
+.about-para {
+  font-size: .87rem;
+  line-height: 1.85;
+  color: rgba(242,237,230,.55);
+  max-width: 460px;
+}
+
+.about-stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: .5rem;
+}
+.stat-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: .3rem;
+}
+.stat-label {
+  font-size: .6rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* ── FOOTER ── */
+.footer {
+  padding: 10vh 7vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+}
+.footer.visible { opacity: 1; transform: none; }
+
+.footer-cta {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.2rem, 5.5vw, 5rem);
+  font-weight: 400;
+  line-height: .9;
+  letter-spacing: -.02em;
+  margin-bottom: 2.5rem;
+}
+.footer-cta em { font-style: italic; color: var(--gold); }
+
+.footer-email {
+  display: block;
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  margin-bottom: .7rem;
+  transition: color .25s;
+}
+.footer-email:hover { color: var(--gold); }
+
+.footer-copy {
+  font-size: .58rem;
+  letter-spacing: .14em;
+  color: rgba(107,102,94,.45);
+}
+
+.footer-right {
+  text-align: right;
+  font-size: .6rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  line-height: 2.2;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  #cur, #ring { display: none; }
+
+  .hero { padding: 5vh 6vw; }
+  .nav { display: none; }
+  .hero-name { font-size: clamp(4rem, 20vw, 7rem); }
+  .hero-roles { flex-wrap: wrap; gap: 1rem; }
+
+  .case {
+    grid-template-columns: 1fr;
+    direction: ltr !important;
+    min-height: unset;
+  }
+  .case-img { min-height: 58vw; }
+  .case-text { padding: 6vw; direction: ltr !important; }
+  .case-body { max-width: 100%; }
+
+  .about {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 8vh 6vw;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3rem;
+    padding: 8vh 6vw;
+  }
+  .footer-right { text-align: left; }
+}
+
+/* ANIMATIONS */
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes up   { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="ring"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <span class="badge">Available for projects</span>
+    <nav class="nav">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#footer">Contact</a>
+    </nav>
+  </div>
+
+  <div class="hero-mid">
+    <p class="hero-eyebrow">Landing Pages · Ad Copy · Creative Direction</p>
+    <h1 class="hero-name">Mos<em>tafa</em></h1>
+    <p class="hero-tagline">I close the gap between a luxury brand's Instagram presence and what happens after the click — with landing pages and ad copy built for independent brands that refuse to look small.</p>
+  </div>
+
+  <div class="hero-bot">
+    <div class="hero-roles">
+      <span class="hero-role">Landing Pages</span>
+      <span class="hero-role">Ad Copy</span>
+      <span class="hero-role">Creative Direction</span>
+    </div>
+    <span class="scroll-hint">Work</span>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+
+  <!-- 01 Richard Mille -->
+  <article class="case">
+    <div class="case-img">
+      <img src="images/richard-mille.webp" alt="Richard Mille landing page concept" loading="eager" fetchpriority="high" width="900" height="1125">
+      <div class="case-img-veil"></div>
+    </div>
+    <div class="case-text">
+      <p class="case-index">01 / 03</p>
+      <div class="case-meta">
+        <span class="case-brand">Richard Mille</span>
+        <span class="case-tag">Landing Page</span>
+      </div>
+      <h2 class="case-headline">A page that earns<br><em>the price tag.</em></h2>
+      <div class="case-rule"></div>
+      <p class="case-label">The Problem</p>
+      <p class="case-body">Richard Mille builds watches that cost more than most homes. But most luxury brand pages look like they were built in 2015 — generic layout, no story, no weight. The organic content is cinematic. The landing page kills the sale before it starts.</p>
+      <a href="https://richard-mille-eight.vercel.app/" target="_blank" rel="noopener" class="case-cta">
+        View Case <span class="case-cta-arrow"></span>
+      </a>
+    </div>
+  </article>
+
+  <!-- 02 Adidas -->
+  <article class="case">
+    <div class="case-img">
+      <img src="images/adidas.webp" alt="Adidas Predator landing page concept" loading="lazy" width="900" height="1125">
+      <div class="case-img-veil"></div>
+    </div>
+    <div class="case-text">
+      <p class="case-index">02 / 03</p>
+      <div class="case-meta">
+        <span class="case-brand">Adidas Predator</span>
+        <span class="case-tag">Ad Copy · Landing Page</span>
+      </div>
+      <h2 class="case-headline">Ad copy that<br><em>stops the scroll.</em></h2>
+      <div class="case-rule"></div>
+      <p class="case-label">The Problem</p>
+      <p class="case-body">Performance brands run generic ads and wonder why engagement drops. The Predator has a real story — precision engineering built for players who want control. This concept rewrites the ad and the page around that story, not the discount.</p>
+      <a href="https://adidas-five-wheat.vercel.app/" target="_blank" rel="noopener" class="case-cta">
+        View Case <span class="case-cta-arrow"></span>
+      </a>
+    </div>
+  </article>
+
+  <!-- 03 WICKED -->
+  <article class="case">
+    <div class="case-img">
+      <img src="images/wicked.webp" alt="WICKED landing page concept" loading="lazy" width="900" height="1125">
+      <div class="case-img-veil"></div>
+    </div>
+    <div class="case-text">
+      <p class="case-index">03 / 03</p>
+      <div class="case-meta">
+        <span class="case-brand">WICKED</span>
+        <span class="case-tag">Landing Page</span>
+      </div>
+      <h2 class="case-headline">When the brand has<br><em>a world to sell.</em></h2>
+      <div class="case-rule"></div>
+      <p class="case-label">The Problem</p>
+      <p class="case-body">Entertainment brands carry massive emotional weight but often land on pages that feel transactional. This concept builds a landing page around the world of WICKED — not just the show, but the feeling it sells — turning a passive visitor into someone who needs to be there.</p>
+      <a href="https://wicked-seven.vercel.app/" target="_blank" rel="noopener" class="case-cta">
+        View Case <span class="case-cta-arrow"></span>
+      </a>
+    </div>
+  </article>
+
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left">
+    <p class="about-label">About</p>
+    <h2 class="about-heading">The gap between<br>great product and<br><em>actual sales.</em></h2>
+  </div>
+  <div class="about-body">
+    <p class="about-para">Most independent luxury brands have the product, the photography, and the Instagram following. What they don't have is a page that carries that weight after the click — and ad copy that doesn't sound like every other brand in the feed.</p>
+    <p class="about-para">That's the gap I work in. Landing pages built around the brand story, not a template. Ad copy that sells the experience, not the discount.</p>
+    <div class="about-stats">
+      <div>
+        <p class="stat-num">3</p>
+        <p class="stat-label">Case Studies</p>
+      </div>
+      <div>
+        <p class="stat-num">2</p>
+        <p class="stat-label">Brands Active</p>
+      </div>
+      <div>
+        <p class="stat-num">US · EU · Gulf</p>
+        <p class="stat-label">Markets</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="footer">
+  <div>
+    <h2 class="footer-cta">Let's make<br>something <em>real.</em></h2>
+    <a href="mailto:m49152646@gmail.com" class="footer-email">m49152646@gmail.com</a>
+    <p class="footer-copy">© 2025 Mostafa. All rights reserved.</p>
+  </div>
+  <div class="footer-right">
+    <p>Landing Pages<br>Ad Copy<br>Creative Direction</p>
+  </div>
+</footer>
+
+<script>
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+
+document.addEventListener('mousemove', e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.transform=`translate(${mx-3.5}px,${my-3.5}px)`;
+});
+
+(function loop(){
+  rx+=(mx-rx)*.11; ry+=(my-ry)*.11;
+  ring.style.transform=`translate(${rx-17}px,${ry-17}px)`;
+  requestAnimationFrame(loop);
+})();
+
+document.querySelectorAll('a,.case').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ ring.style.width='56px'; ring.style.height='56px'; ring.style.borderColor='rgba(184,154,106,.75)'; });
+  el.addEventListener('mouseleave',()=>{ ring.style.width='34px'; ring.style.height='34px'; ring.style.borderColor='rgba(184,154,106,.45)'; });
+});
+
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:.1});
+document.querySelectorAll('.case,.about,.footer').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
